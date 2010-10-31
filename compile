@@ -1,0 +1,8 @@
+#!/bin/bash
+
+CC=gcc
+CFLAGS="-Wall -pedantic -O3 -ggdb"
+
+for i in *.c; do
+	echo "$(CC) $(CFLAGS) -o $(echo $i | sed -e 's/\.c$/\.bin/') $i"
+done

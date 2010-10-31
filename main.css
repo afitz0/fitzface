@@ -1,0 +1,60 @@
+div {
+-moz-border-radius: 5px;
+border-radius: 5px;
+}
+
+.header {
+	position: absolute;
+	top: 20px;
+	left: 20px;
+	width: 70%;
+	height: 55px;
+	border: none;
+}
+
+.body {
+	position: absolute;
+	top: 130px;
+	left: 20px;
+	width: 70%;
+	border: none;
+}
+
+.rightBar {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	width: 20%;
+	border: none;
+}
+
+.content, .shadow {
+	position: relative;
+	bottom: 4px;
+	right: 4px;
+}
+
+.content {
+	background-color: #fff;
+	color: #000;
+	border: 1px dotted #000;
+	padding: 1.0em;
+}
+
+.shadow {
+	background-color: #ccc;
+}
+
+.unknown {
+	visibility: none;
+}
+
+a {
+	text-decoration: none;
+	font-style: italic;
+	border-bottom: dotted 1px #ccc;
+}
+
+a:visited {
+	color: #444488;
+}
