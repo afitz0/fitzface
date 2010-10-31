@@ -2,11 +2,11 @@
 
 int main () {
 	initPage();
+	useTemplate(MAIN);
 
-	setSlot(HEAD, 
-		"<title>Fitzface.com</title> \
-		<link rel=\"stylesheet\" href=\"/main.css\" type=\"text/css\">",
-		HTML_RAW
+	setSlot(TITLE,
+		"Error 404",
+		TEXT_RAW
 	);
 
 	setSlot(BODY,

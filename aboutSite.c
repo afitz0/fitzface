@@ -3,15 +3,12 @@
 int main () {
   initPage();
 
+	useTemplate(MAIN);
+
   setSlot(TITLE, 
     "About this site",
 		TEXT_RAW
   );
-
-	setSlot(HEAD,
-    "<strong><a href=\"/\">Fitzface.com</a></strong>",
-		HTML_RAW
-	);
 
   setSlot(BODY,
     "<p> \
@@ -35,15 +32,6 @@ int main () {
       That's Fitzface.com. A personal, modern web site built using C. Among \
       other things, I plan on chronicling its development here. \
     </p>",
-		HTML_RAW
-  );
-
-  setSlot(RIGHT_BAR,
-    "<ul> \
-      <li><a href=\"/aboutMe\">About Me</a></li> \
-      <li><a href=\"/aboutSite\">About Fitzface.com</a></li> \
-      <li><a href=\"/resume\">My Resume</a></li> \
-    </ul>",
 		HTML_RAW
   );
 

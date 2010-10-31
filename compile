@@ -3,7 +3,13 @@
 CC=gcc
 CFLAGS="-Wall -pedantic -O3 -ggdb --std=gnu99"
 
+$CC $CFLAGS -c page.c
+
 for i in *.c; do
-	echo $CC $CFLAGS -o $(echo $i | sed -e 's/\.c$/\.bin/') $i
-	$CC $CFLAGS -o $(echo $i | sed -e 's/\.c$/\.bin/') $i
+	if [ "$i" != "page.c" ]; then
+		echo $CC $CFLAGS -c $i
+		$CC $CFLAGS -c $i
+		echo $CC $CFLAGS $(echo $i | sed -e 's/.c$/.o/') page.o -o $(echo $i | sed -e 's/.c$/.bin/')
+		$CC $CFLAGS $(echo $i | sed -e 's/.c$/.o/') page.o -o $(echo $i | sed -e 's/.c$/.bin/')
+	fi
 done
