@@ -1,11 +1,10 @@
 #include "page.h"
 
 int main () {
-	initPage();
-	includejQuery();
+  initPage();
 
   setSlot(TITLE, 
-    "Fitzface.com",
+    "About this site",
 		TEXT_RAW
   );
 
@@ -14,10 +13,12 @@ int main () {
 		HTML_RAW
 	);
 
-	setSlot(BODY,
-		"resumeText.html",
-		HTML_FILE
-	);
+  setSlot(BODY,
+    "<p> \
+      This is me. \
+    </p>",
+		HTML_RAW
+  );
 
   setSlot(RIGHT_BAR,
     "<ul> \
@@ -28,5 +29,5 @@ int main () {
 		HTML_RAW
   );
 
-	renderPage();
+  renderPage();
 }

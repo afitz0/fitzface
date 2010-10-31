@@ -18,7 +18,7 @@ int main () {
   );
 
 	setSlot(HEAD,
-    "<strong>Fitzface.com</strong>",
+    "<strong><a href=\"/\">Fitzface.com</a></strong>",
 		HTML_RAW
 	);
 
@@ -27,8 +27,8 @@ int main () {
 		<div style=\"text-align: right;\"><em>October 30, 2010</em></div> \
 		<p> \
 			This is a brand-new site. Obviously a work in progress. Check out the \
-			links to the right for some more information, especially the <em><a href=\"/aboutSite\">About \
-			Fitzface.com</a></em> page, which talks some about what this site is. The \
+			links to the right for some more information, especially the <a href=\"/aboutSite\">About \
+			Fitzface.com</a> page, which talks some about what this site is. The \
 			fun part: its backend is written in C. \
 			<br /><br /> \
 			For the most part, it's just raw HTML. For now. The C doesn't do much \
@@ -36,7 +36,7 @@ int main () {
 			like forms, templates, articles, and full database interaction. I'll \
 			be chroniclng what happens through more posts like this one. \
 			<br /><br /> \
-			<div style=\"text-align: right;\"><em><a href=\"/aboutMe\">A. Fitz</a></em></div> \
+			<div style=\"text-align: right;\"><a href=\"/aboutMe\">A. Fitz</a></div> \
 		</p>",
 		HTML_RAW
   );

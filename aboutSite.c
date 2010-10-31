@@ -9,7 +9,7 @@ int main () {
   );
 
 	setSlot(HEAD,
-    "<strong>Fitzface.com</strong>",
+    "<strong><a href=\"/\">Fitzface.com</a></strong>",
 		HTML_RAW
 	);
 
@@ -40,8 +40,8 @@ int main () {
 
   setSlot(RIGHT_BAR,
     "<ul> \
-      <li><a href=\"/me\">About Me</a></li> \
-      <li><a href=\"/site\">About Fitzface.com</a></li> \
+      <li><a href=\"/aboutMe\">About Me</a></li> \
+      <li><a href=\"/aboutSite\">About Fitzface.com</a></li> \
       <li><a href=\"/resume\">My Resume</a></li> \
     </ul>",
 		HTML_RAW
