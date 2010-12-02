@@ -16,13 +16,13 @@ int initPage() {
 
 	options.jQuery = false;
 
-	return FITZ_RETURN_SUCCESS;
+	return FITZ_SUCCESS;
 }
 
 int includejQuery() {
 	options.jQuery = true;
 
-	return FITZ_RETURN_SUCCESS;
+	return FITZ_SUCCESS;
 }
 
 int printFile(const char * filename) {
@@ -36,7 +36,18 @@ int printFile(const char * filename) {
 
 	fclose(file);
 
-	return FITZ_RETURN_SUCCESS;
+	return FITZ_SUCCESS;
+}
+
+int printStdin() {
+	char * line = (char*)malloc(MAX_LINE_SIZE);
+	size_t lineSize = MAX_LINE_SIZE;
+
+	while (getline(&line, &lineSize, stderr) != EOF) {
+		printf("%s", line);
+	}
+
+	return FITZ_SUCCESS;
 }
 
 int printBlock(const int block) {
@@ -63,28 +74,38 @@ int printBlock(const int block) {
 		printf("<div class=\"shadow\"> \
 			<div class=\"content\">");
 		
-		if (slots[block].type == HTML_FILE)
-			printFile(slots[block].text);
-		else if ((slots[block].type == HTML_RAW) || (slots[block].type == TEXT_RAW))
-			printf("%s", slots[block].text);
+		switch (slots[block].type) {
+			case HTML_FILE:
+				printFile(slots[block].text);
+				break;
+			case STDIN:
+				printStdin();
+				break;
+			case HTML_RAW:
+			case TEXT_RAW:
+				printf("%s", slots[block].text);
+				break;
+			default:
+				printf("Unknown block");
+		}
 
 		printf("</div> \
 				</div> \
 			</div>");
 
-		returnCode = FITZ_RETURN_SUCCESS;
+		returnCode = FITZ_SUCCESS;
 	} else {
-		returnCode = FITZ_RETURN_EMPTY;
+		returnCode = FITZ_EMPTY;
 	}
 
 	return returnCode;
 }
 
 int setSlot(const int slot, const char * value, const int type) {
-	int returnCode = FITZ_RETURN_SUCCESS;
+	int returnCode = FITZ_SUCCESS;
 
 	if ((slot == TITLE) && (type != TEXT_RAW)) {
-		returnCode = FITZ_RETURN_TYPE_ERROR;
+		returnCode = FITZ_TYPE_ERROR;
 	}
 
 	strcpy(slots[slot].text, value);
@@ -93,8 +114,27 @@ int setSlot(const int slot, const char * value, const int type) {
 	return returnCode;
 }
 
-int appendSlot(const int slot, char * value) {
-	return FITZ_RETURN_SUCCESS;
+int appendSlot(const int slot, const char * value, const int type) {
+	return FITZ_UNIMPLEMENTED;
+
+	/*
+	size_t lenSlot  = strlen(slots[slot].text);
+	size_t lenValue = strlen(value);
+	size_t newLen = lenSlot + lenValue + 1;
+	char * newValue;
+
+	if (newLen > MAX_SLOT_SIZE) {
+		returnCode = FITZ_SIZE_ERROR;
+	} else {
+		newValue = (char*)malloc(newLen);
+
+		sprintf(newValue, "%s %s", slots[slot].text, value);
+
+		returnCode = setSlot(slot, newValue, type);
+	}
+
+	return returnCode;
+	*/
 }
 
 int renderPage() {
@@ -121,7 +161,7 @@ int renderPage() {
 
 	printf("</body></html>");
 
-	return FITZ_RETURN_SUCCESS;
+	return FITZ_SUCCESS;
 }
 
 int useTemplate(const int temp) {
@@ -151,5 +191,5 @@ int useTemplate(const int temp) {
 			break;
 	}
 
-	return FITZ_RETURN_SUCCESS;
+	return FITZ_SUCCESS;
 }

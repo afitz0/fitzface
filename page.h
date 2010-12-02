@@ -23,7 +23,8 @@ enum {
 enum {
 	HTML_RAW,
 	HTML_FILE,
-	TEXT_RAW
+	TEXT_RAW,
+	STDIN
 } slotTypes;
 
 struct slotValues {
@@ -41,9 +42,10 @@ struct pageOptions options;
 int initPage      ();
 int includejQuery ();
 int printFile     (const char * filename);
+int printStdin    ();
 int printBlock    (const int block);
 int setSlot       (const int slot, const char * value, const int type);
-int appendSlot    (const int slot, char * value);
+int appendSlot    (const int slot, const char * value, const int type);
 int renderPage    ();
 int useTemplate   (const int temp);
 
