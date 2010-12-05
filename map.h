@@ -58,12 +58,14 @@ int map_insert(map * m, const char * key, const char * value) {
 	} else {
 		map_value * n = m->values[index];
 
-		if (strcmp(n->key, key) == 0) return FITZ_KEY_EXISTS;
+		if (strcmp(n->key, key) == 0)
+			return FITZ_KEY_EXISTS;
 
 		while (n->next != NULL) {
 			n = n->next;
 
-			if (strcmp(n->key, key) == 0) return FITZ_KEY_EXISTS;
+			if (strcmp(n->key, key) == 0)
+				return FITZ_KEY_EXISTS;
 		}
 
 		n->next = v;
@@ -81,11 +83,21 @@ int map_insert(map * m, const char * key, const char * value) {
 char * map_search(map * m, const char * key) {
 	int index = map_hash(m, key);
 
-	if (m->values[index] == NULL) {
-		return NULL;
-	} else {
+	if (m->values[index] != NULL) {
+		map_value * n = m->values[index];
 
+		if (strcmp(n->key, key) == 0)
+			return n;
+
+		while (n->next != NULL) {
+			n = n->next;
+
+			if (strcmp(n->key, key) == 0)
+				return n;
+		}
 	}
+
+	return NULL;
 }
 
 // 
