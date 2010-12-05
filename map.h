@@ -87,13 +87,13 @@ char * map_search(map * m, const char * key) {
 		map_value * n = m->values[index];
 
 		if (strcmp(n->key, key) == 0)
-			return n;
+			return n->value;
 
 		while (n->next != NULL) {
 			n = n->next;
 
 			if (strcmp(n->key, key) == 0)
-				return n;
+				return n->value;
 		}
 	}
 
