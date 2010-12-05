@@ -8,6 +8,7 @@
 
 typedef struct map_value {
 	struct map_value * next;
+	struct map_value * prev;
 	char * key;
 	char * value;
 } map_value;
@@ -47,6 +48,7 @@ int map_insert(map * m, const char * key, const char * value) {
 
 	map_value * v = (map_value*)malloc(sizeof(map_value));
 	v->next = NULL;
+	v->prev = NULL;
 	v->key = (char*)malloc(strlen(key)+1);
 	v->value = (char*)malloc(strlen(value)+1);
 
@@ -69,31 +71,51 @@ int map_insert(map * m, const char * key, const char * value) {
 		}
 
 		n->next = v;
+		v->prev = n;
 	}
 
 	return FITZ_SUCCESS;
 }
 
 // update
+int map_update(map * m, const char * key, const char * value) {
+	map_value * v = map_search(m, key);
+
+	if (v == NULL) {
+		return FITZ_NOT_FOUND;
+	} else {
+		strcpy(v->value, value);
+		return FITZ_SUCCESS;
+	}
+}
 
 // delete
+int map_delete(map * m, const char * key) {
+	map_value * v = map_search(m, key);
+
+	if (v == NULL) {
+		return FITZ_NOT_FOUND;
+	} else {
+		
+	}
+}
 
 // search (fetch/get)
-// returns value associated with key, or NULL if not found
-char * map_search(map * m, const char * key) {
+// returns value struct associated with key, or NULL if not found
+map_value * map_search(map * m, const char * key) {
 	int index = map_hash(m, key);
 
 	if (m->values[index] != NULL) {
 		map_value * n = m->values[index];
 
 		if (strcmp(n->key, key) == 0)
-			return n->value;
+			return n;
 
 		while (n->next != NULL) {
 			n = n->next;
 
 			if (strcmp(n->key, key) == 0)
-				return n->value;
+				return n;
 		}
 	}
 
