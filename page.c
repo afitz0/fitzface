@@ -188,7 +188,7 @@ int useTemplate(const int temp) {
 				"<ul> \
 					<li><a href=\"/aboutMe\">About Me</a></li> \
 					<li><a href=\"/aboutSite\">About Fitzface.com</a></li> \
-					<li><a href=\"/resume\">My Resume</a></li> \
+					<li><a href=\"/resume\">Resume</a></li> \
 				</ul>",
 				HTML_RAW
 			);
