@@ -35,6 +35,7 @@ int printFile(const char * filename) {
 	}
 
 	fclose(file);
+	free(line);
 
 	return FITZ_SUCCESS;
 }
@@ -46,6 +47,8 @@ int printStdin() {
 	while (getline(&line, &lineSize, stderr) != EOF) {
 		printf("%s", line);
 	}
+
+	free(line);
 
 	return FITZ_SUCCESS;
 }
@@ -108,6 +111,10 @@ int setSlot(const int slot, const char * value, const int type) {
 		returnCode = FITZ_TYPE_ERROR;
 	}
 
+	if (strlen(value) > MAX_SLOT_SIZE) {
+		slots[slot].text = realloc(slots[slot].text, strlen(value)+1);
+	}
+
 	strcpy(slots[slot].text, value);
 	slots[slot].type = type;
 
@@ -159,7 +166,12 @@ int renderPage() {
 	printBlock(BODY);
 	printBlock(FOOT);
 
-	printf("</body></html>");
+	printf("</body></html>\n");
+
+	// Free allocated blocks
+	for (int i = 0; i < NUM_SLOTS; ++i) {
+		free(slots[i].text);
+	}
 
 	return FITZ_SUCCESS;
 }

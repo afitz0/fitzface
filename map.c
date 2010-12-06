@@ -157,7 +157,7 @@ int map_hash(map * m, const char * key) {
 	int hash = 0;
 	unsigned char buf[20];
 
-	SHA1(key, strlen(key), buf);
+	SHA1((const unsigned char *)key, strlen(key), buf);
 
 	for (int i = 0; i < 20; i++) {
 		hash += buf[i];

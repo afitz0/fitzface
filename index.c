@@ -6,8 +6,32 @@ int main () {
 	useTemplate(MAIN);
 
   setSlot(BODY,
-    "<strong>New site</strong>\n \
-		<div style=\"text-align: right;\"><em>October 30, 2010</em></div>\n \
+    "<strong>Update</strong>\n \
+			<div style=\"text-align: right;\"><em>December 6, 2010</em></div>\n \
+			<br /> \n \
+			It's obviously been over a month since my last (and first) update, but I have been working \
+			on the site. I started working on a good interface for creating new posts here \
+			and as part of that process began working on the database API. It's probably \
+			not surprising to hear that I quickly ran into the desire to have something \
+			akin to an associative array. So I made one. From scratch. Fortunately it wasn't \
+			difficult as hash tables are the quintessential A&amp;DS project. Implementing it was \
+			a friendly reminder of what's involved. \
+			<br /><br /> \
+			So now that I have a working associative array, I need to devise a structure \
+			for holding results from database queries, connect the form interface to the DBI, \
+			create an API for sanitising form input, and any number of other things. \
+			<br /><br /> \
+			Outside of the site itself, it's now only 9 days from when I'll be living in London. \
+			I fly out next Wednesday and then begins my 5-month (or so) stay in England. I plan \
+			on using this site to chronicle that stay, through blog posts and photos. \
+			<div style=\"text-align: right;\"><a href=\"/aboutMe\">A. Fitz</a></div>\n \
+\
+		<br />\n \
+		<hr />\n \
+		<br />\n \
+\
+		<strong>New site</strong>\n \
+			<div style=\"text-align: right;\"><em>October 30, 2010</em></div>\n \
 			<br />\n \
 			This is a brand-new site. Obviously a work in progress. Check out the\n \
 			links to the right for some more information, especially the <a href=\"/aboutSite\">About\n \
@@ -23,6 +47,11 @@ int main () {
 	  ",
 		HTML_RAW
   );
+
+	setSlot(FOOT,
+		"This page <a href=\"http://validator.w3.org/check?uri=http%3A%2F%2Ffitzface.com\">validated with W3C</a>",
+		HTML_RAW
+	);
 
   renderPage();
 
