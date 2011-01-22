@@ -39,3 +39,9 @@ processPost: page.o processPost.c
 resume: page.o resume.c
 	$(CC) $(CFLAGS) -c resume.c
 	$(CC) $(CFLAGS) resume.o page.o -o resume.bin
+
+clean:
+	rm -fr *.o
+
+distclean: clean
+	rm -fr *.bin
