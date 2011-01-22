@@ -6,7 +6,21 @@ int main () {
 	useTemplate(MAIN);
 
   setSlot(BODY,
-    "<strong>Update</strong>\n \
+    "<strong>Downtime</strong>\n \
+			<div style=\"text-align: right;\"><em>January 21, 2011</em></div>\n \
+			<br /> \n \
+			After a long period of downtime caused by a power outage, my site is back up\n \
+			and I can start working on the site again.\n \
+			<br />\
+			<br />\
+			A lot has happened since my last post. I'll say more later.\n \
+			<div style=\"text-align: right;\"><a href=\"/aboutMe\">A. Fitz</a></div>\n \
+\
+		<br />\n \
+		<hr />\n \
+		<br />\n \
+\
+		<strong>Update</strong>\n \
 			<div style=\"text-align: right;\"><em>December 6, 2010</em></div>\n \
 			<br /> \n \
 			It's obviously been over a month since my last (and first) update, but I have been working \

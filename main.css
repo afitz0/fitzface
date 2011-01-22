@@ -44,7 +44,7 @@ div {
 }
 
 .shadow {
-	background-color: #ccc;
+	background-color: darkgray;
 }
 
 .unknown {
@@ -63,4 +63,8 @@ a:visited {
 
 h1 {
 	font-size: 12pt;
+}
+
+body {
+	background-color: lightblue;
 }
