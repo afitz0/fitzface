@@ -4,10 +4,13 @@ CFLAGS = -Wall -pedantic -ggdb --std=gnu99
 default: all
 	sudo cp *.html *.bin *.css .htaccess /var/www
 
-all: 404 aboutMe aboutSite index map newPost page processPost resume
+all: 404 aboutMe aboutSite index map newPost page processPost resume db
 
 page:
 	$(CC) $(CFLAGS) -c page.c
+
+db:
+	$(CC) $(CFLAGS) -I/usr/include/postgresql -c db.c
 
 map:
 	$(CC) $(CFLAGS) -lssl -c map.c
