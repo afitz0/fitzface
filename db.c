@@ -1,4 +1,3 @@
-#include <libpq-fe.h>
 #include <stdio.h>
 #include "errorCodes.h"
 #include "config.h"

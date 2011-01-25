@@ -1,6 +1,5 @@
 #include "page.h"
 
-
 int main (int argc, char ** argv) {
 	initPage();
 	useTemplate(MAIN);

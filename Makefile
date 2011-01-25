@@ -1,16 +1,18 @@
-CC     = gcc
-CFLAGS = -Wall -pedantic -ggdb --std=gnu99
+CC      = gcc
+CFLAGS  = -Wall -pedantic -ggdb --std=gnu99
+WEBROOT = /var/www
+DB      = -I/usr/include/postgresql
 
 default: all
-	sudo cp *.html *.bin *.css .htaccess /var/www
+	sudo cp *.html *.bin *.css .htaccess $(WEBROOT)
 
-all: 404 aboutMe aboutSite index map newPost page processPost resume db
+all: 404 aboutMe aboutSite index map newPost page processPost resume db posts
 
 page:
 	$(CC) $(CFLAGS) -c page.c
 
-db:
-	$(CC) $(CFLAGS) -I/usr/include/postgresql -c db.c
+db: map.o
+	$(CC) $(CFLAGS) $(DB) -lpq -c db.c
 
 map:
 	$(CC) $(CFLAGS) -lssl -c map.c
@@ -18,6 +20,10 @@ map:
 404: page.o 404.c
 	$(CC) $(CFLAGS) -c 404.c
 	$(CC) $(CFLAGS) 404.o page.o -o 404.bin
+
+posts: page.o posts.c db.o
+	$(CC) $(CFLAGS) $(DB) -c posts.c
+	$(CC) $(CFLAGS) $(DB) -lpq map.o db.o posts.o page.o -o posts.bin
 
 aboutMe: page.o aboutMe.c
 	$(CC) $(CFLAGS) -c aboutMe.c

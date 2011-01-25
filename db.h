@@ -2,6 +2,7 @@
 #define FITZFACE_COM_DATABASE
 
 #include "map.h"
+#include <libpq-fe.h>
 
 PGconn * conn;
 
