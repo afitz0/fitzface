@@ -21,8 +21,8 @@ int db_query(const char * query, map * results) {
 	int fields, rows;
 	PGresult *res = PQexec(conn, query);
 
-	if (PQresultStatus(res) != PGRES_COMMAND_OK) {
-		printf("Command failed: %s", PQerrorMessage(conn));
+	if (PQresultStatus(res) != PGRES_TUPLES_OK) {
+		printf("Command failed: %s\n", PQresStatus(PQresultStatus(res)));
 		PQclear(res);
 		return FITZ_ERROR;
 	}
@@ -30,16 +30,9 @@ int db_query(const char * query, map * results) {
 	rows   = PQntuples(res);
 	fields = PQnfields(res);
 
-	if (results != NULL) {
-		fprintf(stderr, "WARNING: given results set will be overwritten.\n");
-	}
-
-	results = (map*)malloc(sizeof(map)*rows);
-
 	for (int i = 0; i < rows; i++) {
-		results[i] = map_init(fields);
 		for (int j = 0; j < fields; j++) {
-			map_insert(&results[i], PQfname(res, j), PQgetvalue(res, i, j));
+			map_insert(results, PQfname(res, j), PQgetvalue(res, i, j));
 		}
 	}
 

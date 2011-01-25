@@ -4,7 +4,9 @@ WEBROOT = /var/www
 DB      = -I/usr/include/postgresql
 
 default: all
-	sudo cp *.html *.bin *.css .htaccess $(WEBROOT)
+
+install:
+	cp *.html *.bin *.css .htaccess $(WEBROOT)
 
 all: 404 aboutMe aboutSite index map newPost page processPost resume db posts
 
@@ -48,6 +50,10 @@ processPost: page.o processPost.c
 resume: page.o resume.c
 	$(CC) $(CFLAGS) -c resume.c
 	$(CC) $(CFLAGS) resume.o page.o -o resume.bin
+
+testMap: map.o testMap.c
+	$(CC) $(CFLAGS) -c testMap.c
+	$(CC) $(CFLAGS) -lssl map.o testMap.o -o testMap.bin
 
 clean:
 	rm -fr *.o

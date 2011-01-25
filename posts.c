@@ -2,9 +2,10 @@
 #include "page.h"
 #include "db.h"
 #include "map.h"
+#include "errorCodes.h"
 
 int main () {
-	map results[5];
+	map results = map_init(10);
 	char html[2048];
 
 	initPage();
@@ -12,7 +13,9 @@ int main () {
 	useTemplate(MAIN);
 
 	db_connect();
-	db_query("select * from articles;", results);
+	if (db_query("select * from articles", &results) != FITZ_SUCCESS) {
+		printf("db_query failed!\n");
+	}
 
 	sprintf(html, "<strong>%s</strong>\n \
 		<div style=\"text-align: right;\"><em>%s</em></div>\n \
@@ -21,10 +24,10 @@ int main () {
 		<br /><br />\n \
 		<div style=\"text-align: right;\"><a href=\"/aboutMe\">%s</a></div>\n \
 		",
-		map_search(&results[0], "title")->value,
-		map_search(&results[0], "date")->value,
-		map_search(&results[0], "body")->value,
-		map_search(&results[0], "author")->value
+		map_search(&results, "title")->value,
+		map_search(&results, "date")->value,
+		map_search(&results, "body")->value,
+		map_search(&results, "author")->value
 	);
 
 	setSlot(BODY, html, HTML_RAW);

@@ -1,10 +1,13 @@
 #include "map.h"
+#include <stdio.h>
 
 map map_init(size_t max_size) {
 	map m;
 
 	m.max = max_size;
 	m.values = (map_value**)malloc(max_size * sizeof(map_value*));
+	if (m.values == NULL)
+		printf("Malloc'ing values failed!\n");
 
 	return m;
 }
