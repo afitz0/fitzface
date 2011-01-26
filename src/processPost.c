@@ -30,14 +30,12 @@ int main (int argc, char ** argv) {
 	fgets(input, len+1, stdin);
 	unencode(input, len, data);
 
-	printf("%s\n", data);
+	//printf("%s\n", data);
 
-	/*
 	setSlot(BODY,
 		data,
 		TEXT_RAW
 	);
 
 	renderPage();
-	*/
 }

@@ -6,7 +6,18 @@ int main () {
 	useTemplate(MAIN);
 
   setSlot(BODY,
-    "<strong>Downtime</strong>\n \
+    "<strong>On github</strong>\n \
+			<div style=\"text-align: right;\"><em>January 25, 2011</em></div>\n \
+			<br /> \n \
+			I've put the site's code up on github for all to see.\n \
+			<a href=\"https://github.com/afitz0/fitzface\">Here's the link.</a>\n \
+			<div style=\"text-align: right;\"><a href=\"/aboutMe\">A. Fitz</a></div>\n \
+\
+		<br />\n \
+		<hr />\n \
+		<br />\n \
+\
+    <strong>Downtime</strong>\n \
 			<div style=\"text-align: right;\"><em>January 21, 2011</em></div>\n \
 			<br /> \n \
 			After a long period of downtime caused by a power outage, my site is back up\n \
