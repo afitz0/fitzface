@@ -7,6 +7,6 @@
 PGconn * conn;
 
 int db_connect();
-int db_query(const char * query, map * results);
+int db_query(const char * query, map * results, int * rows);
 
 #endif

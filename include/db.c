@@ -17,8 +17,8 @@ int db_connect() {
 	return FITZ_SUCCESS;
 }
 
-int db_query(const char * query, map * results) {
-	int fields, rows;
+int db_query(const char * query, map * results, int * rows) {
+	int fields;
 	PGresult *res = PQexec(conn, query);
 
 	if (PQresultStatus(res) != PGRES_TUPLES_OK) {
@@ -27,12 +27,12 @@ int db_query(const char * query, map * results) {
 		return FITZ_ERROR;
 	}
 
-	rows   = PQntuples(res);
+	*rows  = PQntuples(res);
 	fields = PQnfields(res);
 
-	for (int i = 0; i < rows; i++) {
+	for (int i = 0; i < *rows; i++) {
 		for (int j = 0; j < fields; j++) {
-			map_insert(results, PQfname(res, j), PQgetvalue(res, i, j));
+			map_insert(&results[i], PQfname(res, j), PQgetvalue(res, i, j));
 		}
 	}
 

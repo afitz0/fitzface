@@ -122,9 +122,7 @@ int setSlot(const int slot, const char * value, const int type) {
 }
 
 int appendSlot(const int slot, const char * value, const int type) {
-	return FITZ_UNIMPLEMENTED;
-
-	/*
+	int returnCode;
 	size_t lenSlot  = strlen(slots[slot].text);
 	size_t lenValue = strlen(value);
 	size_t newLen = lenSlot + lenValue + 1;
@@ -141,7 +139,6 @@ int appendSlot(const int slot, const char * value, const int type) {
 	}
 
 	return returnCode;
-	*/
 }
 
 int renderPage() {
