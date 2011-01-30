@@ -6,11 +6,12 @@ map map_init(size_t max_size) {
 
 	m.max = max_size;
 	m.values = (map_value**)malloc(max_size * sizeof(map_value*));
-	if (m.values == NULL)
-		printf("Malloc'ing values failed!\n");
-
-	for (int i = 0; i < max_size; ++i) {
-		m.values[i] = NULL;
+	if (m.values == NULL) {
+		fprintf(stderr, "Malloc'ing values failed!\n");
+	} else {
+		for (int i = 0; i < max_size; ++i) {
+			m.values[i] = NULL;
+		}
 	}
 
 	return m;

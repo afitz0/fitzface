@@ -35,7 +35,6 @@ map * db_query(const char * query, int * rows, int * error) {
 	*rows  = PQntuples(res);
 	fields = PQnfields(res);
 
-	printf("Allocation results with %d rows.\n", *rows);
 	results = malloc((*rows) * sizeof(map));
 
 	for (int i = 0; i < *rows; i++) {

@@ -4,7 +4,7 @@
 int main() {
 	map m;
 	map_value * result;
-	int code = 0, i;
+	int code = 0, i, returnCode = EXIT_SUCCESS;
 	char a[8], b[8];
 	const int SIZE = 150000;
 
@@ -13,7 +13,7 @@ int main() {
 	if (m.values == NULL) {
 		puts("not ok");
 		puts("ERROR: map init failed. Critical; cannot continue.");
-		exit(1);
+		exit(EXIT_FAILURE);
 	} else {
 		puts("ok");
 	}
@@ -25,6 +25,7 @@ int main() {
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
 		puts("ERROR: insert failed.");
+		returnCode = EXIT_FAILURE;
 	} else {
 		puts("ok");
 	}
@@ -35,9 +36,11 @@ int main() {
 	if (result == NULL) {
 		puts("not ok");
 		puts("ERROR: did not find entry.");
+		returnCode = EXIT_FAILURE;
 	} else if (strcmp(result->value, b) != 0){
 		puts("not ok");
 		printf("ERROR: got back '%s' => '%s'. Expected value '%s'", result->key, result->value, b);
+		returnCode = EXIT_FAILURE;
 	} else {
 		puts("ok");
 	}
@@ -49,6 +52,7 @@ int main() {
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
 		puts("ERROR: update failed.");
+		returnCode = EXIT_FAILURE;
 	} else {
 		puts("ok");
 	}
@@ -59,9 +63,11 @@ int main() {
 	if (result == NULL) {
 		puts("not ok");
 		puts("ERROR: did not find entry.");
+		returnCode = EXIT_FAILURE;
 	} else if (strcmp(result->value, b) != 0){
 		puts("not ok");
 		printf("ERROR: got back '%s' => '%s'. Expected value '%s'", result->key, result->value, b);
+		returnCode = EXIT_FAILURE;
 	} else {
 		puts("ok");
 	}
@@ -72,6 +78,7 @@ int main() {
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
 		puts("ERROR: delete failed.");
+		returnCode = EXIT_FAILURE;
 	} else {
 		puts("ok");
 	}
@@ -82,6 +89,7 @@ int main() {
 	if (result != NULL) {
 		puts("not ok");
 		printf("ERROR: expected NULL, got '%s' => '%s'.\n", result->key, result->value);
+		returnCode = EXIT_FAILURE;
 	} else {
 		puts("ok");
 	}
@@ -95,6 +103,7 @@ int main() {
 		if (code != FITZ_SUCCESS) {
 			puts("not ok");
 			printf("ERROR: insertion of key %d failed\n", i);
+			returnCode = EXIT_FAILURE;
 			break;
 		}
 	}
@@ -108,6 +117,7 @@ int main() {
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
 		printf("ERROR: deletion of %s failed.\n", a);
+		returnCode = EXIT_FAILURE;
 	} else {
 		puts("ok");
 	}
@@ -122,15 +132,18 @@ int main() {
 			if (i != 100) {
 				puts("not ok");
 				printf("ERROR: could not find key%d.\n", i);
+				returnCode = EXIT_FAILURE;
 				break;
 			}
 		} else if (strcmp(result->key, a) != 0) {
 			puts("not ok");
 			printf("ERROR: retrieved key does not match. Expected '%s' got '%s' instead.\n", a, result->key);
+			returnCode = EXIT_FAILURE;
 			break;
 		} else if (strcmp(result->value, b) != 0) {
 			puts("not ok");
 			printf("ERROR: retrieved value does not match. Expected '%s' got '%s' instead.\n", b, result->value);
+			returnCode = EXIT_FAILURE;
 			break;
 		}
 	}
@@ -143,6 +156,7 @@ int main() {
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
 		puts("ERROR: insert failed.");
+		returnCode = EXIT_FAILURE;
 	} else {
 		puts("ok");
 	}
@@ -175,6 +189,7 @@ int main() {
 		if (code != FITZ_SUCCESS) {
 			puts("not ok");
 			printf("ERROR: delete of key '%s' failed!\n", a);
+			returnCode = EXIT_FAILURE;
 			break;
 		}
 	}
@@ -187,9 +202,10 @@ int main() {
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
 		puts("ERROR: map_free failed.");
+		returnCode = EXIT_FAILURE;
 	} else {
 		puts("ok");
 	}
 
-	return 0;
+	return returnCode;
 }
