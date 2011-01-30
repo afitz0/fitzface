@@ -1,25 +1,24 @@
 #include <stdio.h>
+
 #include "page.h"
 #include "db.h"
 #include "map.h"
 #include "errorCodes.h"
 
 int main () {
-	map results[10];
+	map * results;
 	char html[2048];
-	int rows;
-
-	for (int i = 0; i < 10; i++)
-		results[i] = map_init(10);
+	int rows, error;
 
 	initPage();
 
 	useTemplate(MAIN);
 
 	db_connect();
-	if (db_query("select * from articles", results, &rows) != FITZ_SUCCESS) {
+	results = db_query("select * from articles", &rows, &error);
+
+	if (error != FITZ_SUCCESS)
 		printf("db_query failed!\n");
-	}
 
 	if (rows == 0) {
 		sprintf(html, "<strong>No entries</strong>");

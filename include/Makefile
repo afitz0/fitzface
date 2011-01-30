@@ -1,5 +1,4 @@
-CC      = gcc
-CFLAGS  = -Wall -pedantic -ggdb --std=gnu99 -I/usr/include/postgresql
+include ../Makefile.inc
 
 default: all
 

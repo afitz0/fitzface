@@ -9,6 +9,10 @@ map map_init(size_t max_size) {
 	if (m.values == NULL)
 		printf("Malloc'ing values failed!\n");
 
+	for (int i = 0; i < max_size; ++i) {
+		m.values[i] = NULL;
+	}
+
 	return m;
 }
 

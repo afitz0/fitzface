@@ -1,4 +1,5 @@
 #include <stdio.h>
+
 #include "errorCodes.h"
 #include "config.h"
 #include "db.h"
@@ -9,7 +10,7 @@ int db_connect() {
 	conn = PQconnectdb(CONNINFO);
 
 	if (PQstatus(conn) != CONNECTION_OK) {
-		printf("Connection to database failed: %s", PQerrorMessage(conn));
+		fprintf(stderr, "Connection to database failed: %s", PQerrorMessage(conn));
 		PQfinish(conn);
 		return FITZ_ERROR;
 	}
@@ -17,24 +18,34 @@ int db_connect() {
 	return FITZ_SUCCESS;
 }
 
-int db_query(const char * query, map * results, int * rows) {
+map * db_query(const char * query, int * rows, int * error) {
 	int fields;
+	map * results;
+
 	PGresult *res = PQexec(conn, query);
 
 	if (PQresultStatus(res) != PGRES_TUPLES_OK) {
-		printf("Command failed: %s\n", PQresStatus(PQresultStatus(res)));
+		fprintf(stderr, "Command failed: %s\n", PQresStatus(PQresultStatus(res)));
 		PQclear(res);
-		return FITZ_ERROR;
+
+		*error = FITZ_ERROR;
+		return NULL;
 	}
 
 	*rows  = PQntuples(res);
 	fields = PQnfields(res);
 
+	printf("Allocation results with %d rows.\n", *rows);
+	results = malloc((*rows) * sizeof(map));
+
 	for (int i = 0; i < *rows; i++) {
+		results[i] = map_init(fields);
 		for (int j = 0; j < fields; j++) {
-			map_insert(&results[i], PQfname(res, j), PQgetvalue(res, i, j));
+			if (map_insert(&results[i], PQfname(res, j), PQgetvalue(res, i, j)) != FITZ_SUCCESS)
+				fprintf(stderr, "Error inserting row %d, field %s.\n", i, PQfname(res, j));
 		}
 	}
 
-	return FITZ_SUCCESS;
+	*error = FITZ_SUCCESS;
+	return results;
 }

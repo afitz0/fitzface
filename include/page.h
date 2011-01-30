@@ -1,6 +1,7 @@
 #ifndef FITZFACE_COM_PAGE
 #define FITZFACE_COM_PAGE
 
+#define _GNU_SOURCE
 #include <stdlib.h>
 #include <stdbool.h>
 

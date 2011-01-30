@@ -1,6 +1,4 @@
-CC      = gcc
-CFLAGS  = -Wall -pedantic -ggdb --std=gnu99 -I/usr/include/postgresql
-WEBROOT = /var/www
+include Makefile.inc
 
 all: include tests src
 

@@ -13,3 +13,6 @@ TODO
 - twitter
 - photos
 - rework makefiles
+- testing framework
+- logging framework
+- config file as flatfile not header
