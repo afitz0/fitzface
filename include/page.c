@@ -1,8 +1,9 @@
-#include "errorCodes.h"
-#include "page.h"
-
+#define _GNU_SOURCE
 #include <stdio.h>
 #include <string.h>
+
+#include "error.h"
+#include "page.h"
 
 const size_t MAX_SLOT_SIZE = 1024;
 const size_t MAX_LINE_SIZE = 1024;

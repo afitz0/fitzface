@@ -1,5 +1,6 @@
-#include "map.h"
 #include <stdio.h>
+
+#include "map.h"
 
 map map_init(size_t max_size) {
 	map m;

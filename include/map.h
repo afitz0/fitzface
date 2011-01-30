@@ -1,10 +1,11 @@
 #ifndef FITZFACE_COM_MAP
 #define FITZFACE_COM_MAP
 
-#include "errorCodes.h"
 #include <string.h>
 #include <openssl/sha.h>
 #include <stdlib.h>
+
+#include "error.h"
 
 typedef struct map_value {
 	struct map_value * next;

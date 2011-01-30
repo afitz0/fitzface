@@ -3,7 +3,7 @@
 #include "page.h"
 #include "db.h"
 #include "map.h"
-#include "errorCodes.h"
+#include "error.h"
 
 int main () {
 	map * results;

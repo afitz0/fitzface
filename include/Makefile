@@ -7,6 +7,9 @@ all: map page db
 page:
 	$(CC) $(CFLAGS) -c page.c
 
+error:
+	$(CC) $(CFLAGS) -c error.c
+
 db: map.o
 	$(CC) $(CFLAGS) $(DB) -lpq -c db.c
 

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-#include "errorCodes.h"
+#include "error.h"
 #include "config.h"
 #include "db.h"
 

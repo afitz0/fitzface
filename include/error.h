@@ -12,4 +12,6 @@ enum {
 	FITZ_EMPTY
 } FITZ_RETURNS;
 
+char * errorString(const int code);
+
 #endif

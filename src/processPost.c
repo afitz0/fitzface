@@ -1,6 +1,7 @@
-#include "page.h"
 #include <string.h>
 #include <stdio.h>
+
+#include "page.h"
 
 #define MAXINPUT 2048
 

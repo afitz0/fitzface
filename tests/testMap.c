@@ -1,5 +1,6 @@
-#include "map.h"
 #include <stdio.h>
+
+#include "map.h"
 
 int main() {
 	map m;
