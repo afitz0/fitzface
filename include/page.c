@@ -5,7 +5,7 @@
 #include "error.h"
 #include "page.h"
 
-const size_t MAX_SLOT_SIZE = 1024;
+const size_t MAX_SLOT_SIZE = 4098;
 const size_t MAX_LINE_SIZE = 1024;
 
 int initPage() {

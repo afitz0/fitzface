@@ -4,9 +4,7 @@ a site, and is very much a work in progress.
 
 TODO
 - Refactor map
-- newPost to use DBI
 - retroactively add posts to database.
-- index to pull from database
 - better styling site-wide
 - twitter
 - photos
@@ -18,3 +16,4 @@ TODO
 - add "published" flag in articles table
 - adherence to some coding consistency guideline
 - run code through splint
+- *Slot to use realloc

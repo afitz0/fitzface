@@ -15,7 +15,7 @@ int main () {
 	useTemplate(MAIN);
 
 	db_connect();
-	results = db_query("select * from articles", &rows, &error);
+	results = db_query("select * from articles order by date desc", &rows, &error);
 
 	if (error != FITZ_SUCCESS) {
 		sprintf(html, "<strong>Error</strong>\n \

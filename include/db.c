@@ -4,12 +4,6 @@
 #include "config.h"
 #include "db.h"
 
-int db_close() {
-	PQfinish(conn);
-
-	return FITZ_SUCCESS;
-}
-
 int db_connect() {
 	char CONNINFO[256];
 	sprintf(CONNINFO, "dbname=%s user=%s password=%s", DBNAME, DBUSER, DBPASS);
@@ -57,4 +51,24 @@ map * db_query(const char * query, int * rows, int * error) {
 		*error = FITZ_ERROR;
 		return NULL;
 	}
+}
+
+char * db_escape(const char * text) {
+	char * out = malloc(strlen(text)*2 + 1);
+	int error;
+	size_t bytes;
+
+	bytes = PQescapeStringConn(conn, out, text, strlen(text), &error);
+	if (error != 0) {
+		fprintf(stderr, "Problem escaping string! Bytes written: %d\n", (int)bytes);
+		return NULL;
+	}
+
+	return out;
+}
+
+int db_close() {
+	PQfinish(conn);
+
+	return FITZ_SUCCESS;
 }

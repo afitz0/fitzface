@@ -7,8 +7,9 @@
 
 PGconn * conn;
 
-int db_connect();
-map * db_query(const char * query, int * rows, int * error);
-int db_close();
+int    db_connect();
+map *  db_query(const char * query, int * rows, int * error);
+char * db_escape(const char * text);
+int    db_close();
 
 #endif

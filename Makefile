@@ -2,7 +2,7 @@ include Makefile.inc
 
 all: include tests src
 
-install: include src
+install:
 	cp content/*.html bin/* css/*.css .htaccess $(WEBROOT)
 
 src: force
