@@ -3,7 +3,6 @@ website in C and is, by a long shot, not meant to be the "best" way of doing
 a site, and is very much a work in progress.
 
 TODO
-- db_query to work with arbitrary SQL (not just select)
 - Refactor map
 - newPost to use DBI
 - retroactively add posts to database.
@@ -16,3 +15,7 @@ TODO
 - logging framework
 - config file as flatfile not header
 - error handlers
+- add "published" flag in articles table
+- adherence to some coding consistency guideline
+- run code through splint
+- Makefile to copy binaries to bin/

@@ -5,7 +5,7 @@ default: all
 all: 404 aboutMe aboutSite index newPost processPost resume
 
 .c: ../include/page.o
-	$(CC) $(CFLAGS) $@.c ../include/page.o -o $@.bin
+	$(CC) $(CFLAGS) $@.c -lpq -lssl ../include/*.o -o $@.bin
 
 clean:
 	rm -fr *.o

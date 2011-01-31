@@ -2,10 +2,10 @@ include ../Makefile.inc
 
 default: all
 
-all: posts testMap
+all: testDB testMap
 
-posts: ../include/page.o posts.c ../include/db.o
-	$(CC) $(CFLAGS) -lpq posts.c ../include/map.o ../include/db.o ../include/page.o -o posts.bin
+testDB: ../include/db.o ../include/map.o testDB.c
+	$(CC) $(CFLAGS) -lpq testDB.c ../include/map.o ../include/db.o -o testDB.bin
 
 testMap: ../include/map.o testMap.c
 	$(CC) $(CFLAGS) -lssl testMap.c ../include/map.o -o testMap.bin
