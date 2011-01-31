@@ -110,36 +110,33 @@ int setSlot(const int slot, const char * value, const int type) {
 
 	if ((slot == TITLE) && (type != TEXT_RAW)) {
 		returnCode = FITZ_TYPE_ERROR;
-	}
+	} else {
+		if (strlen(value) > sizeof(slots[slot].text)) {
+			slots[slot].text = realloc(slots[slot].text, strlen(value)+1);
+		}
 
-	if (strlen(value) > MAX_SLOT_SIZE) {
-		slots[slot].text = realloc(slots[slot].text, strlen(value)+1);
+		strcpy(slots[slot].text, value);
+		slots[slot].type = type;
 	}
-
-	strcpy(slots[slot].text, value);
-	slots[slot].type = type;
 
 	return returnCode;
 }
 
 int appendSlot(const int slot, const char * value, const int type) {
-	int returnCode;
 	size_t lenSlot  = strlen(slots[slot].text);
 	size_t lenValue = strlen(value);
 	size_t newLen = lenSlot + lenValue + 1;
 	char * newValue;
 
-	if (newLen > MAX_SLOT_SIZE) {
-		returnCode = FITZ_SIZE_ERROR;
-	} else {
-		newValue = (char*)malloc(newLen);
-
-		sprintf(newValue, "%s %s", slots[slot].text, value);
-
-		returnCode = setSlot(slot, newValue, type);
+	if (newLen > lenSlot) {
+		slots[slot].text = realloc(slots[slot].text, newLen);
 	}
 
-	return returnCode;
+	newValue = malloc(newLen);
+
+	sprintf(newValue, "%s\n%s", slots[slot].text, value);
+
+	return setSlot(slot, newValue, type);
 }
 
 int renderPage() {

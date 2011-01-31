@@ -10,6 +10,7 @@ int main() {
 	const int SIZE = 150000;
 
 	printf("> Init maps... ");
+	fflush(stdout);
 	m = map_init(SIZE);
 	if (m.values == NULL) {
 		puts("not ok");
@@ -22,6 +23,7 @@ int main() {
 	strcpy(a, "hello");
 	strcpy(b, "world");
 	printf("> Insert '%s' => '%s'... ", a, b);
+	fflush(stdout);
 	code = map_insert(&m, a, b);
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
@@ -33,6 +35,7 @@ int main() {
 
 	strcpy(a, "hello");
 	printf("> Retrieve key '%s'... ", a);
+	fflush(stdout);
 	result = map_search(&m, a);
 	if (result == NULL) {
 		puts("not ok");
@@ -49,6 +52,7 @@ int main() {
 	strcpy(a, "hello");
 	strcpy(b, "mundo");
 	printf("> Change key '%s' to value '%s'... ", a, b);
+	fflush(stdout);
 	code = map_update(&m, a, b);
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
@@ -60,6 +64,7 @@ int main() {
 
 	strcpy(a, "hello");
 	printf("> Retrieve key '%s'... ", a);
+	fflush(stdout);
 	result = map_search(&m, a);
 	if (result == NULL) {
 		puts("not ok");
@@ -75,6 +80,7 @@ int main() {
 
 	strcpy(a, "hello");
 	printf("> Delete key '%s'... ", a);
+	fflush(stdout);
 	code = map_delete(&m, a);
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
@@ -86,6 +92,7 @@ int main() {
 
 	strcpy(a, "hello");
 	printf("> Retrieve key '%s'... ", a);
+	fflush(stdout);
 	result = map_search(&m, a);
 	if (result != NULL) {
 		puts("not ok");
@@ -96,6 +103,7 @@ int main() {
 	}
 
 	printf("> Inserting %d different key,value pairs... ", SIZE);
+	fflush(stdout);
 	for (i = 0; i < SIZE; i++) {
 		sprintf(a, "key%d", i);
 		sprintf(b, "value%d", i);
@@ -114,6 +122,7 @@ int main() {
 
 	strcpy(a, "key100");
 	printf("> Delete %s... ", a);
+	fflush(stdout);
 	code = map_delete(&m, a);
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
@@ -124,6 +133,7 @@ int main() {
 	}
 
 	printf("> Retrieve key0..key%d... ", SIZE-1);
+	fflush(stdout);
 	for (i = 0; i < SIZE; i++) {
 		sprintf(a, "key%d", i);
 		sprintf(b, "value%d", i);
@@ -153,6 +163,7 @@ int main() {
 	}
 
 	printf("> Reinsert key100... ");
+	fflush(stdout);
 	code = map_insert(&m, "key100", "value100");
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");
@@ -163,6 +174,7 @@ int main() {
 	}
 
 	printf("> Draw map... ");
+	fflush(stdout);
 	for (i = 0; i < SIZE; i++) {
 		fprintf(stderr, "[%d]: ", i);
 		if (m.values[i] == NULL) {
@@ -183,6 +195,7 @@ int main() {
 	}
 
 	printf("> Delete key0..key%d... ", SIZE-1);
+	fflush(stdout);
 	for (i = 0; i < SIZE; i++) {
 		sprintf(a, "key%d", i);
 
@@ -199,6 +212,7 @@ int main() {
 	}
 
 	printf("> Free map... ");
+	fflush(stdout);
 	code = map_free(&m);
 	if (code != FITZ_SUCCESS) {
 		puts("not ok");

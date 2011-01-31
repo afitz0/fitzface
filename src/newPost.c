@@ -10,6 +10,8 @@
 
 #define DEBUG 0
 
+const char * DEBUG_INPUT = "title=It%27s+a+test%21&body=Really%3F%21+2%2B2+%26+7*7%5E2&submit=Submit";
+
 void unencode(char *src, int length, char *dest);
 map  tokenize(char *input);
 
@@ -51,7 +53,7 @@ int main (int argc, char ** argv) {
 		map formValues = map_init(10);
 
 		if (DEBUG) {
-			strcpy(input, "title=this is a title&body=hello&author=a. b.");
+			strcpy(input, DEBUG_INPUT);
 			len = strlen(input)+1;
 		}
 		else {
@@ -66,7 +68,7 @@ int main (int argc, char ** argv) {
 		db_connect();
 
 		title = db_escape(map_search(&formValues, "title")->value);
-		body = db_escape(map_search(&formValues, "body")->value);
+		body  = db_escape(map_search(&formValues, "body")->value);
 		strcpy(author, "A Fitz");
 		strftime(date, sizeof(date), "%F %T", localtime(&t));
 
