@@ -18,4 +18,3 @@ TODO
 - add "published" flag in articles table
 - adherence to some coding consistency guideline
 - run code through splint
-- Makefile to copy binaries to bin/
