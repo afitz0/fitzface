@@ -75,8 +75,7 @@ int printBlock(const int block) {
 				printf("<div class=\"unknown\">");
 		}
 
-		printf("<div class=\"shadow\"> \
-			<div class=\"content\">");
+		printf("<div class=\"content\">");
 		
 		switch (slots[block].type) {
 			case HTML_FILE:
@@ -93,9 +92,7 @@ int printBlock(const int block) {
 				printf("Unknown block");
 		}
 
-		printf("</div> \
-				</div> \
-			</div>");
+		printf("</div></div>");
 
 		returnCode = FITZ_SUCCESS;
 	} else {
@@ -168,8 +165,10 @@ int renderPage() {
 
 	printBlock(HEAD);
 	printBlock(RIGHT_BAR);
+	puts("<div class=\"main\">");
 	printBlock(BODY);
 	printBlock(FOOT);
+	puts("</div>");
 
 	printf("</body></html>\n");
 

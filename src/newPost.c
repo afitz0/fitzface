@@ -10,7 +10,7 @@
 
 #define DEBUG 0
 
-const char * DEBUG_INPUT = "title=It%27s+a+test%21&body=Really%3F%21+2%2B2+%26+7*7%5E2&submit=Submit";
+const char * DEBUG_INPUT = "title=It%27s+a+test%21&body=+Really%3F%21+2%2B2+%26+7*7%5E2%26+&submit=Submit";
 
 void unencode(char *src, int length, char *dest);
 map  tokenize(char *input);
@@ -100,15 +100,26 @@ int main (int argc, char ** argv) {
 }
 
 void unencode(char *src, int length, char *dest) {
-	int i;
-	for(i = 0; i < length; i++) {
-		if (src[i] == '+')
-			dest[i] = ' ';
-		else
-			dest[i] = src[i];
+	char * in = src;
+	char * out = dest;
+
+	while(*in != '\0') {
+		if (*in == '+') {
+			*out = ' ';
+		} else if (*in == '%') {
+			char hex[2];
+			hex[0] = *(++in);
+			hex[1] = *(++in);
+
+			*out = (char)strtol(hex, NULL, 16);
+		} else {
+			*out = *in;
+		}
+
+		out++; in++;
 	}
 
-	dest[i] = '\0';
+	*out = '\0';
 }
 
 map tokenize(char *input) {
