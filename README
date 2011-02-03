@@ -11,6 +11,7 @@ production system. It is purely for my own edification.
 XXX
 
 TODO
+- Memory management needs significant work.
 - Refactor map
 - retroactively add posts to database.
 - twitter
