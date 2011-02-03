@@ -10,10 +10,10 @@
 
 #define DEBUG 0
 
-const char * DEBUG_INPUT = "title=It%27s+a+test%21&body=+Really%3F%21+2%2B2+%26+7*7%5E2%26+&submit=Submit";
+const char * DEBUG_INPUT = "title=hello&body=+h%26+&submit=Submit";
 
-void unencode(char *src, int length, char *dest);
-map  tokenize(char *input);
+map    tokenize(char *input);
+char * unencode(char *src);
 
 int main (int argc, char ** argv) {
 	char * conLen;
@@ -45,7 +45,7 @@ int main (int argc, char ** argv) {
 			HTML_RAW
 		);
 	} else {
-		char input[MAXINPUT], data[MAXINPUT], author[MAXINPUT], date[MAXINPUT];
+		char input[MAXINPUT], author[MAXINPUT], date[MAXINPUT];
 		char *title, *body, *query;
 		long int len;
 		int error, rows;
@@ -55,15 +55,12 @@ int main (int argc, char ** argv) {
 		if (DEBUG) {
 			strcpy(input, DEBUG_INPUT);
 			len = strlen(input)+1;
-		}
-		else {
+		} else {
 			sscanf(conLen, "%ld", &len);
 			fgets(input, len+1, stdin);
 		}
 
-		unencode(input, len, data);
-
-		formValues = tokenize(data);
+		formValues = tokenize(input);
 
 		db_connect();
 
@@ -92,34 +89,13 @@ int main (int argc, char ** argv) {
 				TEXT_RAW
 			);
 		}
+
+		free(query);
 	}
 
 	renderPage();
 
 	return EXIT_SUCCESS;
-}
-
-void unencode(char *src, int length, char *dest) {
-	char * in = src;
-	char * out = dest;
-
-	while(*in != '\0') {
-		if (*in == '+') {
-			*out = ' ';
-		} else if (*in == '%') {
-			char hex[2];
-			hex[0] = *(++in);
-			hex[1] = *(++in);
-
-			*out = (char)strtol(hex, NULL, 16);
-		} else {
-			*out = *in;
-		}
-
-		out++; in++;
-	}
-
-	*out = '\0';
 }
 
 map tokenize(char *input) {
@@ -144,9 +120,34 @@ map tokenize(char *input) {
 			value[j] = token[i+j];
 		value[j] = '\0';
 
-		map_insert(&output, key, value);
+		map_insert(&output, key, unencode(value));
 		token = strtok(NULL, "&");
 	}
 
 	return output;
+}
+
+char * unencode(char *src) {
+	char * in = src;
+	char * out = malloc(strlen(src));
+	int i;
+
+	for (i = 0; *in != '\0'; i++) {
+		if (*in == '+') {
+			out[i] = ' ';
+		} else if (*in == '%') {
+			char hex[2];
+			hex[0] = *(++in);
+			hex[1] = *(++in);
+
+			out[i] = (char)strtol(hex, NULL, 16);
+		} else {
+			out[i] = *in;
+		}
+
+		in++;
+	}
+
+	out[i] = '\0';
+	return out;
 }
