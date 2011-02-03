@@ -2,10 +2,17 @@ This is Fitz's code for his personal website. It's an experiment in doing a
 website in C and is, by a long shot, not meant to be the "best" way of doing
 a site, and is very much a work in progress.
 
+Once the whole thing is reasonably done, I'm probably going to redo the whole
+thing in a language I don't have experience in. Ruby's a likely candidate.
+
+XXX
+Nothing within this project is meant to be part of an "application" or
+production system. It is purely for my own edification.
+XXX
+
 TODO
 - Refactor map
 - retroactively add posts to database.
-- better styling site-wide
 - twitter
 - photos
 - rework makefiles
