@@ -1,18 +1,17 @@
 #define _GNU_SOURCE
 #include <stdio.h>
 #include <string.h>
+#include <errno.h>
 
 #include "error.h"
 #include "page.h"
 
-const size_t MAX_SLOT_SIZE = 4098;
-const size_t MAX_LINE_SIZE = 1024;
+const size_t LINE_LENGTH = 512;
 
 int initPage() {
-	int i;
-	for (i = 0; i < NUM_SLOTS; ++i) {
-		slots[i].text = (char*)malloc(MAX_SLOT_SIZE);
-		strcpy(slots[i].text, "");
+	for (int i = 0; i < NUM_SLOTS; ++i) {
+		slots[i].text = malloc(1);
+		slots[i].text[0] = '\0';
 	}
 
 	options.jQuery = false;
@@ -27,28 +26,19 @@ int includejQuery() {
 }
 
 int printFile(const char * filename) {
-	char * line = (char*)malloc(MAX_LINE_SIZE);
-	FILE * file = fopen(filename, "r");
-	size_t lineSize = MAX_LINE_SIZE;
+	char * line = (char*)malloc(LINE_LENGTH);
+	FILE * file;
 
-	while (getline(&line, &lineSize, file) != EOF) {
+	file = fopen(filename, "r");
+	if (file == NULL) {
+		perror("Could not open file");
+	}
+
+	while (fgets(line, LINE_LENGTH, file) != NULL) {
 		printf("%s", line);
 	}
 
 	fclose(file);
-	free(line);
-
-	return FITZ_SUCCESS;
-}
-
-int printStdin() {
-	char * line = (char*)malloc(MAX_LINE_SIZE);
-	size_t lineSize = MAX_LINE_SIZE;
-
-	while (getline(&line, &lineSize, stderr) != EOF) {
-		printf("%s", line);
-	}
-
 	free(line);
 
 	return FITZ_SUCCESS;
@@ -81,9 +71,6 @@ int printBlock(const int block) {
 			case HTML_FILE:
 				printFile(slots[block].text);
 				break;
-			case STDIN:
-				printStdin();
-				break;
 			case HTML_RAW:
 			case TEXT_RAW:
 				printf("%s", slots[block].text);
@@ -105,13 +92,11 @@ int printBlock(const int block) {
 int setSlot(const int slot, const char * value, const int type) {
 	int returnCode = FITZ_SUCCESS;
 
+	slots[slot].text = realloc(slots[slot].text, strlen(value)+1);
+
 	if ((slot == TITLE) && (type != TEXT_RAW)) {
 		returnCode = FITZ_TYPE_ERROR;
 	} else {
-		if (strlen(value) > sizeof(slots[slot].text)) {
-			slots[slot].text = realloc(slots[slot].text, strlen(value)+1);
-		}
-
 		strcpy(slots[slot].text, value);
 		slots[slot].type = type;
 	}
@@ -120,19 +105,16 @@ int setSlot(const int slot, const char * value, const int type) {
 }
 
 int appendSlot(const int slot, const char * value, const int type) {
-	size_t lenSlot  = strlen(slots[slot].text);
-	size_t lenValue = strlen(value);
-	size_t newLen = lenSlot + lenValue + 1;
-	char * newValue;
+	size_t slotLen  = strlen(slots[slot].text);
+	size_t newLen   = slotLen + strlen(value) + 1;
+	char * newValue = malloc(newLen);
 
-	if (newLen > lenSlot) {
-		slots[slot].text = realloc(slots[slot].text, newLen);
-	}
+	if (slotLen == 0)
+		strcpy(newValue, value);
+	else
+		sprintf(newValue, "%s%s", slots[slot].text, value);
 
-	newValue = malloc(newLen);
-
-	sprintf(newValue, "%s\n%s", slots[slot].text, value);
-
+	newValue[newLen-1] = '\0';
 	return setSlot(slot, newValue, type);
 }
 
