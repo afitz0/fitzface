@@ -4,13 +4,14 @@
 
 map map_init(size_t max_size) {
 	map m;
+	int i;
 
 	m.max = max_size;
 	m.values = (map_value**)malloc(max_size * sizeof(map_value*));
 	if (m.values == NULL) {
 		fprintf(stderr, "Malloc'ing values failed!\n");
 	} else {
-		for (int i = 0; i < max_size; ++i) {
+		for (i = 0; i < (int)max_size; ++i) {
 			m.values[i] = NULL;
 		}
 	}
@@ -20,15 +21,26 @@ map map_init(size_t max_size) {
 
 // hash -- returns index based on given string
 int map_hash(map * m, const char * key) {
-	int hash = 0;
-	unsigned char buf[20];
+	int hash = 0, i;
+	unsigned char * buf;
 
-	SHA1((const unsigned char *)key, strlen(key), buf);
-
-	for (int i = 0; i < 20; i++) {
-		hash += buf[i];
+	buf = malloc(SHA_DIGEST_LENGTH);
+	if (buf == NULL) {
+		fprintf(stderr, "Allocation of buffer for hash failed!\n");
+		return FITZ_MEMORY_ERROR;
 	}
 
+	if (SHA1((const unsigned char *)key, strlen(key), buf) == NULL) {
+		fprintf(stderr, "Calculation of SHA1 failed!\n");
+		free(buf);
+		return FITZ_ERROR;
+	}
+
+	for (i = 0; i < SHA_DIGEST_LENGTH; i++) {
+		hash += (int)buf[i];
+	}
+
+	free(buf);
 	return (hash % m->max);
 }
 
@@ -36,11 +48,28 @@ int map_hash(map * m, const char * key) {
 int map_insert(map * m, const char * key, const char * value) {
 	int index = map_hash(m, key);
 
-	map_value * v = (map_value*)malloc(sizeof(map_value));
-	v->next = NULL;
-	v->prev = NULL;
-	v->key = (char*)malloc(strlen(key)+1);
-	v->value = (char*)malloc(strlen(value)+1);
+	map_value * v = malloc(sizeof(map_value));
+	if (v == NULL) {
+		fprintf(stderr, "Allocation of new value failed!\n");
+		return FITZ_MEMORY_ERROR;
+	}
+
+	v->next  = NULL;
+	v->prev  = NULL;
+	v->key   = malloc(strlen(key)+1);
+	if (v->key == NULL) {
+		fprintf(stderr, "Allocation of new value's key failed!\n");
+		free(v);
+		return FITZ_MEMORY_ERROR;
+	}
+
+	v->value = malloc(strlen(value)+1);
+	if (v->value== NULL) {
+		fprintf(stderr, "Allocation of new value's text failed!\n");
+		free(v->key);
+		free(v);
+		return FITZ_MEMORY_ERROR;
+	}
 
 	strcpy(v->key, key);
 	strcpy(v->value, value);
@@ -50,14 +79,22 @@ int map_insert(map * m, const char * key, const char * value) {
 	} else {
 		map_value * n = m->values[index];
 
-		if (strcmp(n->key, key) == 0)
+		if (strcmp(n->key, key) == 0) {
+			free(v->key);
+			free(v->value);
+			free(v);
 			return FITZ_KEY_EXISTS;
+		}
 
 		while (n->next != NULL) {
 			n = n->next;
 
-			if (strcmp(n->key, key) == 0)
+			if (strcmp(n->key, key) == 0) {
+				free(v->key);
+				free(v->value);
+				free(v);
 				return FITZ_KEY_EXISTS;
+			}
 		}
 
 		n->next = v;
@@ -130,7 +167,9 @@ map_value * map_search(map * m, const char * key) {
 }
 
 int map_free(map * m) {
-	for (int i = 0; i < m->max; i++) {
+	int i;
+
+	for (i = 0; i < m->max; i++) {
 		if (m->values[i] != NULL) {
 			map_value * n = m->values[i];
 			map_value * p;

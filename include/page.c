@@ -9,9 +9,14 @@
 const size_t LINE_LENGTH = 512;
 
 int initPage() {
-	for (int i = 0; i < NUM_SLOTS; ++i) {
+	int i;
+	for (i = 0; i < NUM_SLOTS; ++i) {
 		slots[i].text = malloc(1);
-		slots[i].text[0] = '\0';
+		if (slots[i].text != NULL) {
+			slots[i].text[0] = '\0';
+		} else {
+			perror("Allocation of slot failed");
+		}
 	}
 
 	options.jQuery = false;
@@ -26,19 +31,28 @@ int includejQuery() {
 }
 
 int printFile(const char * filename) {
-	char * line = (char*)malloc(LINE_LENGTH);
 	FILE * file;
+	char * line;
 
 	file = fopen(filename, "r");
 	if (file == NULL) {
 		perror("Could not open file");
+		return FITZ_ERROR;
 	}
 
-	while (fgets(line, LINE_LENGTH, file) != NULL) {
+	line = malloc(LINE_LENGTH);
+	if (line == NULL) {
+		perror("Allocation of line buffer failed");
+		return FITZ_ERROR;
+	}
+
+	while (fgets(line, (int)LINE_LENGTH, file) != NULL) {
 		printf("%s", line);
 	}
 
-	fclose(file);
+	if (fclose(file) != 0) {
+		perror("Warning: could not close file");
+	}
 	free(line);
 
 	return FITZ_SUCCESS;
@@ -69,7 +83,9 @@ int printBlock(const int block) {
 		
 		switch (slots[block].type) {
 			case HTML_FILE:
-				printFile(slots[block].text);
+				if (printFile(slots[block].text) != FITZ_SUCCESS) {
+					fprintf(stderr, "Printing file %s failed!\n", slots[block].text);
+				}
 				break;
 			case HTML_RAW:
 			case TEXT_RAW:
@@ -90,35 +106,49 @@ int printBlock(const int block) {
 }
 
 int setSlot(const int slot, const char * value, const int type) {
-	int returnCode = FITZ_SUCCESS;
-
 	slots[slot].text = realloc(slots[slot].text, strlen(value)+1);
-
-	if ((slot == TITLE) && (type != TEXT_RAW)) {
-		returnCode = FITZ_TYPE_ERROR;
-	} else {
-		strcpy(slots[slot].text, value);
-		slots[slot].type = type;
+	if (slots[slot].text == NULL) {
+		fprintf(stderr, "Resize of slots[%d] faild!\n", slot);
+		return FITZ_MEMORY_ERROR;
 	}
 
-	return returnCode;
+	if ((slot == TITLE) && (type != TEXT_RAW))
+		return FITZ_TYPE_ERROR;
+
+	if (value == NULL)
+		return FITZ_NULL_VALUE;
+
+	strcpy(slots[slot].text, value);
+	slots[slot].type = type;
+	return FITZ_SUCCESS;
 }
 
 int appendSlot(const int slot, const char * value, const int type) {
 	size_t slotLen  = strlen(slots[slot].text);
 	size_t newLen   = slotLen + strlen(value) + 1;
 	char * newValue = malloc(newLen);
+	int ret;
+
+	if (newValue == NULL) {
+		perror("Allocation of value for appending failed");
+		return FITZ_MEMORY_ERROR;
+	}
 
 	if (slotLen == 0)
 		strcpy(newValue, value);
 	else
-		sprintf(newValue, "%s%s", slots[slot].text, value);
+		(void)snprintf(newValue, newLen, "%s%s", slots[slot].text, value);
 
 	newValue[newLen-1] = '\0';
-	return setSlot(slot, newValue, type);
+	ret = setSlot(slot, newValue, type);
+	free(newValue);
+
+	return ret;
 }
 
 int renderPage() {
+	int i;
+
 	// Headers
 	printf("Content-type: text/html\r\n\r\n");
 
@@ -145,17 +175,24 @@ int renderPage() {
 		</head> \
 		<body>");
 
-	printBlock(HEAD);
-	printBlock(RIGHT_BAR);
-	puts("<div class=\"main\">");
-	printBlock(BODY);
-	printBlock(FOOT);
-	puts("</div>");
+	if (printBlock(HEAD) != FITZ_SUCCESS)
+		fprintf(stderr, "Printing block HEAD failed!");
+	if (printBlock(RIGHT_BAR) != FITZ_SUCCESS)
+		fprintf(stderr, "Printing block RIGHT_BAR failed!");
+	if (puts("<div class=\"main\">") == EOF)
+		fprintf(stderr, "Printing start div failed!");
+	if (printBlock(BODY) != FITZ_SUCCESS)
+		fprintf(stderr, "Printing block BODY failed!");
+	if (printBlock(FOOT) != FITZ_SUCCESS)
+		fprintf(stderr, "Printing block FOOT failed!");
+	if (puts("</div>") == EOF)
+		fprintf(stderr, "Printing end div failed!");
+
 
 	printf("</body></html>\n");
 
 	// Free allocated blocks
-	for (int i = 0; i < NUM_SLOTS; ++i) {
+	for (i = 0; i < NUM_SLOTS; ++i) {
 		free(slots[i].text);
 	}
 
@@ -163,14 +200,18 @@ int renderPage() {
 }
 
 int useTemplate(const int temp) {
+	int code;
+
 	switch (temp) {
 		case MAIN:
-			setSlot(TITLE, 
+			code = setSlot(TITLE,
 				"Fitzface.com",
 				TEXT_RAW
 			);
+			if (code != FITZ_SUCCESS)
+				fprintf(stderr, "Setting slot TITLE failed!\n");
 
-			setSlot(RIGHT_BAR,
+			code = setSlot(RIGHT_BAR,
 				"<ul> \
 					<li><a href=\"/aboutMe\">About Me</a></li> \
 					<li><a href=\"/aboutSite\">About Fitzface.com</a></li> \
@@ -178,11 +219,15 @@ int useTemplate(const int temp) {
 				</ul>",
 				HTML_RAW
 			);
+			if (code != FITZ_SUCCESS)
+				fprintf(stderr, "Setting slot RIGHT_BAR failed!\n");
 
-			setSlot(HEAD,
+			code = setSlot(HEAD,
 				"<strong><a href=\"/\">Fitzface.com</a></strong>",
 				HTML_RAW
 			);
+			if (code != FITZ_SUCCESS)
+				fprintf(stderr, "Setting slot HEAD failed!\n");
 
 			break;
 		default:
