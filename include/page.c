@@ -153,15 +153,15 @@ int renderPage() {
 	printf("Content-type: text/html\r\n\r\n");
 
 	// Content
-	printf("<!doctype html><html><head> \
-		<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">");
-	printf("<title>%s</title>", slots[TITLE].text);
+	printf("<!doctype html><html><head>\n \
+		<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\">\n");
+	printf("<title>%s</title>\n", slots[TITLE].text);
 
 	if (options.jQuery) {
-		printf("<script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-1.4.2.min.js\"></script>");
+		printf("<script type=\"text/javascript\" src=\"http://code.jquery.com/jquery-1.5.min.js\"></script>\n");
 	}
 
-	printf("<link rel=\"stylesheet\" href=\"/main.css\" type=\"text/css\"> \
+	printf("<link rel=\"stylesheet\" href=\"/css/main.css\" type=\"text/css\"> \
 			<script type=\"text/javascript\"> \
 				var _gaq = _gaq || []; \
 				_gaq.push(['_setAccount', 'UA-20321950-1']); \
@@ -173,7 +173,7 @@ int renderPage() {
 				 })(); \
 			</script> \
 		</head> \
-		<body>");
+		<body>\n");
 
 	if (printBlock(HEAD) != FITZ_SUCCESS)
 		fprintf(stderr, "Printing block HEAD failed!");

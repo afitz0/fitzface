@@ -1,3 +1,6 @@
+<script src="./js/resume.js"></script>
+<link rel="stylesheet" href="/css/resume.css" type="text/css">
+
 <div style="text-align: center;">
 	<ul style="list-style-type: none;">
 		<li><strong>Andrew Fitz Gibbon</strong></li>
@@ -6,8 +9,18 @@
 	</ul>
 </div>
 
-<h1>WORK EXPERIENCE</h1>
+<a href="javascript:void(0);" id="hideAll">Hide All</a>
 
+<br />
+<br />
+
+<div class="resumeHeader">WORK EXPERIENCE</div>
+<div class="hideSection">
+<a href="javascript:void(0);" id="hidejobs" onclick="hide('jobs')">Hide</a>
+</div>
+
+<div id="jobs" class="block">
+<br />
 <strong>Shodor Education Foundation and the National Computational Science Institute</strong>
 <br />- <em>Programmer, System Administrator, Instructor</em>
 <br /><em>December 2009 - Present</em>
@@ -69,9 +82,16 @@ Responsibilities:
 	<li>Curriculum involves tools and environments such as Alice, C++, PHP, Java, Logo, and others</li>
 	<li>Adapt curriculum on-the-fly to account for campers' skill levels and interests</li>
 </ul>
+</div>
 
-<h1>TECHNICAL SKILLS</h1>
+<br />
 
+<div class="resumeHeader">TECHNICAL SKILLS</div>
+<div class="hideSection">
+<a href="javascript:void(0);" id="hideskills" onclick="hide('skills')">Hide</a>
+</div>
+
+<div id="skills" class="block">
 <ul>
 	<li><strong>Languages and Specifications:</strong>
 		<ul>
@@ -90,30 +110,47 @@ Responsibilities:
 		</ul>
 	</li>
 </ul>
+</div>
 
-<h1>EDUCATION</h1>
+<br />
 
+<div class="resumeHeader">EDUCATION</div>
+<div class="hideSection">
+<a href="javascript:void(0);" id="hideedu" onclick="hide('edu')">Hide</a>
+</div>
+
+<div id="edu" class="block">
 <ul style="list-style-type: none;">
 	<li><strong>Earlham College</strong>, Richmond, Indiana</li>
 	<li>Graduated: May 9, 2009</li>
 	<li>Degree: Bachelor's of Arts</li>
 	<li>Major: Computer Science</li>
 </ul>
+</div>
 
-<h1>PUBLICATIONS</h1>
+<br />
 
+<div class="resumeHeader">PUBLICATIONS</div>
+<div class="hideSection">
+<a href="javascript:void(0);" id="hidepubs" onclick="hide('pubs')">Hide</a>
+</div>
+
+<div id="pubs" class="block">
 <ul style="list-style-type: none;">
 	<li>
 		A. Fitz Gibbon, P. Gray, D. A. Joiner, T. Murphy, H. Neeman, R.M. Panoff, C. Peck, and S. Thompson. (2010) Teaching High Performance Computing to Undergraduate Faculty and Undergraduate Students. In <em>TG'10: Proceedings of the 2010 TeraGrid Conference</em>, pages 1-7, New York, NY, USA. ACM. (<em>Best Paper: EOT Track, TG'10</em>)
 	</li>
-	<li>&nbsp;</li>
-	<li>
-		<em>To be published</em> A. Fitz Gibbon. ``Blue Water Undergraduate Petascale Education Program Final Report.'' <a href="http://www.jocse.org">Journal of Computational Science Education</a>
-	</li>
 </ul>
+</div>
 
-<h1>AWARDS, RECOGNITIONS, and ACTIVITIES</h1>
+<br />
 
+<div class="resumeHeader">AWARDS, RECOGNITIONS, and ACTIVITIES</div>
+<div class="hideSection">
+<a href="javascript:void(0);" id="hideawards" onclick="hide('awards')">Hide</a>
+</div>
+
+<div id="awards" class="block">
 <ul>
 <li>ACM/IEEE SuperComputing 2010 Conference in New Orleans, Louisiana (<em>Nov 2010</em>)
 	<ul>
@@ -150,7 +187,10 @@ Responsibilities:
 <li>Varsity Cross Country (<em>June 2001 - Dec 2006</em>)</li>
 <li>Eagle Scout (<em>Awarded June 2001</em>)</li>
 </ul>
+</div>
+
+<br />
 
 <div style="text-align: right;">
-Last updated: <em>October 29, 2010</em>
+Last updated: <em>5 February 2011</em>
 </div>

@@ -1,0 +1,18 @@
+#hideAll {
+	margin-left: 90%;
+	font-size: small;
+}
+
+.hideSection {
+	position: relative;
+	top: 0px;
+	right: 0px;
+	text-align: right;
+	font-size: small;
+}
+
+.resumeHeader {
+	position: absolute;
+	font-size: large;
+	font-weight: bold;
+}
